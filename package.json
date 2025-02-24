@@ -1,0 +1,31 @@
+{
+  "name": "ocarina-of-now",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server-dev": "npx nodemon --watch server server/index.js",
+    "client-dev": "npx webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grand-Line-Voyagers-FEC/Atelier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grand-Line-Voyagers-FEC/Atelier/issues"
+  },
+  "homepage": "https://github.com/Grand-Line-Voyagers-FEC/Atelier#readme",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "path": "^0.12.7",
+    "react": "^19.0.0",
+    "tone": "^15.0.4",
+    "webpack": "^5.98.0"
+  }
+}
