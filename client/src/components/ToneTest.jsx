@@ -4,47 +4,23 @@ import SaveButton from './SaveButton.jsx';
 import RecordButton from './RecordButton.jsx';
 import Playback from './Playback.jsx';
 
-export default function ToneTest({ onRecord }) {
+export default function ToneTest({ onRecord, synthRef }) {
   const [pressedKeys, setPressedKeys] = useState({}); // Track multiple keys pressed
   const [recordedNotes, setRecordedNotes] = useState([]);
-  const synthRef = useRef(null);
-  useEffect(() => {
-    // Initialize the synth only once
-    synthRef.current = new Tone.Synth({
-      oscillator: {
-        type: 'sine',  // The sine wave gives a smooth, soft tone
-      },
-      envelope: {
-        attack: 0.6,  // Short attack for a breathy start
-        decay: 0.4,   // Decay for a smooth release
-        sustain: .2, // Low sustain
-        release: 1, // Longer release to let the note fade like an ocarina
-      }
-    }).toDestination();
-    // Add reverb to simulate the space around the sound
-    const reverb = new Tone.Reverb(3).toDestination();
-    const delay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
-    const eq = new Tone.EQ3(0, -10, -20).toDestination(); // Adjust EQ settings as needed
-    synthRef.current.chain(reverb, delay, eq);
-
-    return () => {
-      synthRef.current.dispose();
-    };
-  }, []);
 
   const noteMapping = {
-    'w': 'D4',
+    'w': 'F4',
     'a': 'B4',
-    's': 'F4',
+    's': 'D4',
     'd': 'A4',
     'h': 'B3',
     'j': 'F3',
     'k': 'A3',
-    ' ': 'C3',
+    'l': 'C5',
   };
 
-  const handleDown = (event) => {
-    Tone.start();
+  const handleDown = async (event) => {
+    await Tone.start();
     if (noteMapping[event.key] && !pressedKeys[event.key]) {
       const startTime = Tone.now();
       synthRef.current.triggerAttack(noteMapping[event.key]);
@@ -52,8 +28,8 @@ export default function ToneTest({ onRecord }) {
     }
   };
 
-  const handleUp = (event) => {
-    Tone.start();
+  const handleUp = async (event) => {
+    await Tone.start();
     if (noteMapping[event.key] && pressedKeys[event.key]) {
       const endTime = Tone.now();
       synthRef.current.triggerRelease();
@@ -97,8 +73,7 @@ export default function ToneTest({ onRecord }) {
   }, [pressedKeys]);
 
   return (
-    <div>
-      <Playback recordedNotes={recordedNotes} synthRef={synthRef}/>
+    <div className="flex">
       <RecordButton startRecording={startRecording}/>
       <SaveButton stopRecording={stopRecording}/>
     </div>

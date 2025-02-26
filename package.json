@@ -41,6 +41,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.1",
+    "recorder-js": "^1.0.7",
     "style-loader": "^4.0.0",
     "tailwind": "^4.0.0",
     "tailwindcss": "^4.0.8",

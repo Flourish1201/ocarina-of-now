@@ -5,13 +5,21 @@ module.exports = {
   postSong: async (req, res) => {
     console.log(req.body.data);
     const { name, notes } = req.body.data;
-      if (!name || !notes) {
-        return res.status(400).json({ message: "Name and notes are required" });
-      }
+    if (!name || !notes) {
+      return res.status(400).json({ message: "Name and notes are required" });
+    }
+
+    // Adjust the start times of the notes to eliminate empty space before the first note
+    const firstNoteTime = Math.min(...notes.map(note => note.startTime));
+    const adjustedNotes = notes.map(note => ({
+      ...note,
+      startTime: note.startTime - firstNoteTime
+    }));
+
     try {
       var newSong = new Song({
         name,
-        notes
+        notes: adjustedNotes
       });
       var savedSong = await newSong.save();
       res.status(201).json({ message: "YO WE POSTED YOUR SONG", song: savedSong });
